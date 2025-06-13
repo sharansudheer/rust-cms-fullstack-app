@@ -1,0 +1,37 @@
+version: "1.0"
+
+services:
+  backend:
+    build: ./core
+    ports:
+      - "5000:5000"
+    environment:
+      - 
+    volumes:
+      - ./backend:/app
+    depends_on:
+      - db
+
+  # frontend:
+  #   build: ./frontend
+  #   ports:
+  #     - "3000:3000"
+  #   volumes:
+  #     - ./frontend:/app
+  #     - /app/node_modules
+  #   stdin_open: true
+  #   tty: true
+
+  db:
+    image: postgres:16
+    environment:
+  
+      POSTGRES_DB: mydb
+    ports:
+      -
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+      - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
+
+volumes:
+  postgres-data:
