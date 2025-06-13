@@ -1,0 +1,18 @@
+
+FROM rust:1.87 AS builder
+
+WORKDIR /app
+COPY backend/ .
+
+RUN cargo build --release
+
+# Minimal image for running the compiled binary
+FROM debian:bullseye-slim
+
+WORKDIR /app
+COPY --from=builder /app/target/release/backend /app/backend
+
+# Port your server listens on
+EXPOSE 8080
+
+CMD ["./backend"]
